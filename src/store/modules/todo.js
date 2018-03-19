@@ -1,6 +1,13 @@
-import * as types from './mutations_type.js'
+// types
+const types = {
+  addTodo: 'addTodo',
+  toggleTodo: 'toggleTodo',
+  deleteTodo: 'deleteTodo',
+  editTodo: 'editTodo',
+}
 
-export const state = {
+// State
+const state = {
 	todos: [
 		{ key: 0, content: 'vue.js 2.0', done: true },
 		{ key: 1, content: 'vuex 2.0', done: false },
@@ -10,7 +17,30 @@ export const state = {
 	]
 }
 
-export const mutations = {
+// Getters
+const getters = {
+	getTodos: state => state.todos.filter((item)=> !item.done),
+	getDones: state => state.todos.filter((item)=> item.done)
+}
+
+// Actions
+const actions = {
+	addTodo({ commit }, todo){
+  	commit(types.addTodo, todo)
+	},
+	toggleTodo({ commit }, todo){
+	  commit(types.toggleTodo, todo)
+	},
+	deleteTodo({ commit }, todo){
+	  commit(types.deleteTodo, todo)
+	},
+	editTodo({commit}, [todo, newContent]){
+		commit(types.editTodo, [todo, newContent])
+	}
+}
+
+// Mutations
+const mutations = {
 	[types.addTodo] (state, todo){
 		state.todos.push({ key: state.todos.length, content: todo, done: false })
 	},
@@ -26,4 +56,12 @@ export const mutations = {
 		var index = state.todos.indexOf(todo)
 		state.todos[index].content = newContent
 	}
+}
+
+
+export default {
+  state,
+  getters,
+  actions,
+  mutations
 }
